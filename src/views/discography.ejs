@@ -1,0 +1,92 @@
+<%- include('partials/header', { active: 'discography' }) %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A R Rahman - Discography</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <main>
+        <div style="width:80%;margin:2rem auto 0 auto;max-width:100%;">
+            <input
+                type="text"
+                id="album-filter"
+                placeholder="Search albums..."
+                style="width:100%;padding:0.7rem 1rem;font-size:1.1rem;border-radius:8px;border:1px solid #ccc;box-sizing:border-box;margin-bottom:2rem;"
+            />
+        </div>
+        <% const groups = [
+            { key: 'recent', label: 'Recent Releases' },
+            { key: 'hindi', label: 'Albums in Hindi' },
+            { key: 'tamil', label: 'Albums in Tamil' },
+            { key: 'movies', label: 'Movie Albums' },
+            { key: 'independent', label: 'Independent Albums' }
+        ]; %>
+        <% groups.forEach(function(group, idx) { %>
+        <section class="carousel-container" data-carousel-group="<%= group.key %>">
+            <h2><%= group.label %></h2>
+            <div class="carousel-track" id="carousel-<%= idx %>">
+                <% (albums[group.key] || []).forEach(function(album, albumIdx) { %>
+                    <div class="carousel-item" data-title="<%= album.title.toLowerCase() %>">
+                        <a href="/album?id=<%= album.id %>"><%= album.title %></a>
+                        <% if (album.url) { %>
+                          <div style="margin-top:0.3em;">
+                            <a href="<%= album.url %>" target="_blank" style="font-size:0.95em;">Listen on Spotify</a>
+                          </div>
+                        <% } %>
+                        <div style="margin-top:0.7em; font-size:0.97em; text-align:left;">
+                            <% if (album.leadActors && album.leadActors.length) { %>
+                                <div><strong>Lead Actors:</strong> <%= album.leadActors.join(', ') %></div>
+                            <% } %>
+                            <% if (album.lyricists && album.lyricists.length) { %>
+                                <div><strong>Lyricists:</strong> <%= album.lyricists.join(', ') %></div>
+                            <% } %>
+                            <% if (album.singers && album.singers.length) { %>
+                                <div><strong>Singers:</strong> <%= album.singers.join(', ') %></div>
+                            <% } %>
+                            <% if (album.label) { %>
+                                <div><strong>Label:</strong> <%= album.label %></div>
+                            <% } %>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        </section>
+        <% }); %>
+    </main>
+    <%- include('partials/footer', { active: 'discography' }) %>
+        <script>
+      // Enhanced filter: search by all fields
+      document.getElementById('album-filter').addEventListener('input', function(e) {
+        const query = e.target.value.trim().toLowerCase();
+        document.querySelectorAll('.carousel-container').forEach(container => {
+          let anyVisible = false;
+          container.querySelectorAll('.carousel-item').forEach(item => {
+            // Gather all searchable text from the album item
+            let text = '';
+            // Album title
+            text += item.querySelector('a')?.textContent?.toLowerCase() || '';
+            // Album details
+            const details = item.querySelectorAll('div > div');
+            details.forEach(detail => {
+              text += ' ' + detail.textContent.toLowerCase();
+            });
+            // Also check data attributes if needed (for robustness)
+            text += ' ' + (item.getAttribute('data-title') || '');
+    
+            if (!query || text.includes(query)) {
+              item.style.display = '';
+              anyVisible = true;
+            } else {
+              item.style.display = 'none';
+            }
+          });
+          // Hide group if no albums match
+          container.style.display = anyVisible ? '' : 'none';
+        });
+      });
+    </script>
+</body>
+</html>

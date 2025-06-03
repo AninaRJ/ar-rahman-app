@@ -1,0 +1,19 @@
+<header>
+  <img src="/ar-rahman-header.jpg" alt="A R Rahman" class="header-img">
+  <h1 class="highlight">A R Rahman
+    <span style="display:block; font-size:0.7em; font-weight:400; margin-top:0.3em;">
+      "எல்லா புகழும் இறைவனுக்கே" 
+      <span style="font-size:0.85em; color:#fff; margin-left:0.5em;">
+        (All glory to God)
+      </span>
+    </span>
+  </h1>
+  <nav>
+    <a href="/" class="<%= (active === 'home') ? 'active' : '' %>">Home</a>
+    <a href="/discography" class="<%= (active === 'discography') ? 'active' : '' %>">Discography</a>
+    <a href="/about" class="<%= (active === 'about') ? 'active' : '' %>">About</a>
+    <% if (active === 'albumDetail' && album) { %>
+      <a href="/album?id=<%= album.id %>" class="active"><%= album.title %></a>
+    <% } %>
+  </nav>
+</header>
