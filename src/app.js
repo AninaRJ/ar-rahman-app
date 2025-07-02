@@ -1,21 +1,23 @@
-require('dotenv').config(); // Load environment variables from .env file
-const express = require('express');
-const path = require('path');
-const homeRoute = require('./routes/home');
-const discographyRoute = require('./routes/discography');
-//const discographyRoute = require('./routes/discography-search'); // Use the search route for dynamic fetching
-const aboutRoute = require('./routes/about');
-const albumDetailRoute = require('./routes/albumDetail');
+import dotenv from 'dotenv'; // Load environment variables from .env file
+import express from 'express';
+import path from 'path';
+import homeRoute from './routes/home.js';
+import discographyRoute from './routes/discography.js';
+//import discographyRoute from './routes/discography-search.js'; // Use the search route for dynamic fetching
+import aboutRoute from './routes/about.js';
+import albumDetailRoute from './routes/albumDetail.js';
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Set the view engine to EJS
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(path.resolve(), 'src', 'views'));
 
 // Middleware to serve static files
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(path.resolve(), 'src', 'public')));
 
 // Define routes
 app.use('/', homeRoute);
@@ -27,12 +29,3 @@ app.use('/album', albumDetailRoute);
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-
-// Start the server only if not required by another module (like tests)
-// if (require.main === module) {
-//   app.listen(PORT, () => {
-//     console.log(`Server is running on http://localhost:${PORT}`);
-//   });
-// }
-
-// module.exports = app; // <-- Export the app for testing

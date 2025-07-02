@@ -57,6 +57,34 @@
         </ul>
       </div>
     <% } %>
+
+    <% if (album.songs && album.songs.length) { %>
+      <div style="margin-top:1rem;">
+        <strong>Song List:</strong>
+        <ul>
+          <% album.songs.forEach(function(song) { %>
+            <div class="song-item">
+              <span><strong><%= song.songTitle %></strong></span>
+              <span>Lyricists: <i><%= song.lyricists %></i></span>
+              <span>Singers: <%= song.singers %></span>
+              <span>Length: <%= song.length %></span>
+
+              <div style="margin-top:1rem;">
+                <% if (song.audioLinks && song.audioLinks.youtube) { %>
+                  <a href="<%= song.audioLinks.youtube %>" target="_blank" title="YouTube" style="margin-right:12px;"><%- youtubeIcon %></a>
+                <% } %>
+                <% if (song.audioLinks && song.audioLinks.appleMusic) { %>
+                  <a href="<%= song.audioLinks.appleMusic %>" target="_blank" title="Apple Music" style="margin-right:12px;"><%- appleMusicIcon %></a>
+                <% } %>
+                <% if (song.audioLinks && song.audioLinks.spotify) { %>
+                  <a href="<%= song.audioLinks.spotify %>" target="_blank" title="Wikipedia" style="margin-right:12px;"><%- spotifyIcon %></a>
+                <% } %>
+              </div>
+            </div>
+          <% }); %>
+        </ul>
+      </div>
+    <% } %>
     </div>
   </section>
 </main>

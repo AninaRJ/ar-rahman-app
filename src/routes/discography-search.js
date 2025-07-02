@@ -1,6 +1,7 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
-const express = require('express');
+import axios from 'axios';
+import cheerio from 'cheerio';
+import express from 'express';
+
 const router = express.Router();
 /**
  * Fetches AR Rahman albums from Google Search and returns an array of albumDetail objects.
@@ -18,7 +19,6 @@ async function fetchARRahmanAlbums() {
     const $ = cheerio.load(data);
 
     // Try to extract album titles from the Google Knowledge Panel
-    
     $('div[role="list"] div[role="listitem"]').each((i, el) => {
       const title = $(el).find('div[role="heading"]').text().trim();
       if (title) {
@@ -51,5 +51,5 @@ router.get('/', async (req, res) => {
   res.render('discography', { albums });
 });
 
-module.exports = router; 
-module.exports.albums = albums;
+export default router;
+export { albums}

@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "description": "A web application showcasing the music and life of A R Rahman.",
   "main": "src/app.js",
+  "type": "module",
   "scripts": {
     "start": "node src/app.js"
   },
   "dependencies": {
     "axios": "^1.9.0",
     "cheerio": "^1.0.0",
+    "contentful": "^11.7.2",
     "dotenv": "^16.5.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1"

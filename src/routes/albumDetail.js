@@ -1,6 +1,7 @@
-const express = require('express');
+import express from 'express';
+import { albums } from './discography.js';
+
 const router = express.Router();
-const { albums } = require('./discography');
 
 // Helper to find album by id
 function findAlbumById(id) {
@@ -25,4 +26,4 @@ router.get('/', (req, res) => {
   res.render('albumDetail', { album, active: 'albumDetail' }); // <-- add active
 });
 
-module.exports = router;
+export default router;

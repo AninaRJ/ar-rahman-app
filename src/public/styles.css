@@ -157,6 +157,14 @@ footer {
     text-decoration: underline;
 }
 
+.song-item{
+  margin-top:1rem;
+}
+
+.song-item > span{
+  display: block;
+}
+
 /* Responsive Design */
 
 @media (max-width: 900px) {
