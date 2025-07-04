@@ -29,3 +29,5 @@ function readRichText(richText) {
     .map(paragraph => extractText(paragraph.content))
     .join('\n');
 }
+
+export default readRichText;

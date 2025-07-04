@@ -28,26 +28,34 @@
         <section class="carousel-container" data-carousel-group="<%= group.key %>">
             <h2><%= group.label %></h2>
             <div class="carousel-track" id="carousel-<%= idx %>">
-                <% (albums[group.key] || []).forEach(function(album, albumIdx) { %>
-                    <div class="carousel-item" data-title="<%= album.title.toLowerCase() %>">
-                        <a href="/album?id=<%= album.id %>"><%= album.title %></a>
-                        <% if (album.url) { %>
+                <% const filteredAlbums = (albums.find(item => item.tag === group.key)?.albums || []); %>
+                <% filteredAlbums.length > 0 && filteredAlbums.forEach(function(album) { %>
+                    <div class="carousel-item" data-title="<%= album.albumTitle.toLowerCase() %>">
+                        <a href="/album?id=<%= album.albumId %>"><%= album.albumTitle %></a>
+                        <% if (album.albumLinks.spotifyUrl) { %>
                           <div style="margin-top:0.3em;">
-                            <a href="<%= album.url %>" target="_blank" style="font-size:0.95em;">Listen on Spotify</a>
+                            <a href="<%= album.albumLinks.spotifyUrl %>" target="_blank" style="font-size:0.95em;">Listen on Spotify</a>
                           </div>
                         <% } %>
+                        <div style="margin-top:0.5em; font-size:0.9em; color:#555;">
+                            <span><strong>Year Released:</strong> <%= album.yearReleased %></span>
+                            <% if (album.language) { %>
+                                <span style="margin-left:1em;"><strong>Type:</strong> <%= album.language %></span>
+                            <% } %>
+                        </div>
                         <div style="margin-top:0.7em; font-size:0.97em; text-align:left;">
-                            <% if (album.leadActors && album.leadActors.length) { %>
-                                <div><strong>Lead Actors:</strong> <%= album.leadActors.join(', ') %></div>
+                            <% if (album.leadActors) { %>
+                                <div><strong>Lead Actors:</strong> <%= album.leadActors.split('\n').join(', ')%></div>
                             <% } %>
-                            <% if (album.lyricists && album.lyricists.length) { %>
-                                <div><strong>Lyricists:</strong> <%= album.lyricists.join(', ') %></div>
+                            <% if (album.lyricists && album.lyricists.length > 0) { %>
+                                <div><strong>Lyricists:</strong> <%= album.lyricists %></div>
                             <% } %>
-                            <% if (album.singers && album.singers.length) { %>
-                                <div><strong>Singers:</strong> <%= album.singers.join(', ') %></div>
-                            <% } %>
-                            <% if (album.label) { %>
-                                <div><strong>Label:</strong> <%= album.label %></div>
+                            <% if (album.albumLabel) { %>
+                                <div><strong>Label:</strong> 
+                                  <a href="<%= album.albumLabel.wikipediaUrl %>" target="_blank" style="font-size:0.95em;">
+                                  <%= album.albumLabel.labelName %>
+                                  </a>
+                                </div>
                             <% } %>
                         </div>
                     </div>
