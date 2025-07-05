@@ -11,7 +11,7 @@ const client = contentful.createClient({
 });
 let albums = [];
 let all_tags = [];
-
+let arr_albms = [];
 
 async function retrieveAlbums(){
   // Retrieve the albums and tags from Contentful
@@ -22,19 +22,30 @@ async function retrieveAlbums(){
   });
 
   client.getEntries({
-    content_type: 'album'
+    content_type: 'album',
   }).then(function (response) {
-    const arr_albms = response.items.map(item => ({
+    arr_albms = response.items.map(item => ({
       albumTitle: item.fields.albumTitle,
       albumId: item.fields.albumId,
       albumDescription: readRichText(item.fields.albumDescription), // richtext field
       albumLinks: item.fields.albumLinks.fields, 
       lyricists: item.fields.lyricists ? item.fields.lyricists.map(lyricist => lyricist.fields.lyricistName) : [], 
-      songs: item.fields.songs, 
+      songs: item.fields.songs.map(song => {
+        console.log(song.fields.audioLinks)
+        return {
+          songTitle: song.fields.songTitle,
+          songId: song.fields.songId,
+          length: song.fields.length,
+          lyricists: song.fields.lyricists ? song.fields.lyricists.map(lyricist => lyricist.fields.lyricistName) : [],
+          //singers: song.fields.singers ? song.fields.singers.map(singer => singer.fields.singerName) : [],
+          audioLinks: song.fields.audioLinks 
+        };  
+      }), 
       language: item.fields.language,
       yearReleased: item.fields.yearReleased,
       albumLabel: item.fields.albumLabel.fields,
       leadActors: readRichText(item.fields.leadActors), // richtext field
+      awards: readRichText(item.fields.awards),
       tags: item.metadata.tags.map(tag => tag.sys.id)
     }));
 
@@ -58,4 +69,4 @@ retrieveAlbums().then(() => {
   res.status(500).send("Internal Server Error");
 });
 
-export { albums };
+export { albums, arr_albms, all_tags };

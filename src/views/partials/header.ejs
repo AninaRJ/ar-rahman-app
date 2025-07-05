@@ -13,7 +13,7 @@
     <a href="/discography" class="<%= (active === 'discography') ? 'active' : '' %>">Discography</a>
     <a href="/about" class="<%= (active === 'about') ? 'active' : '' %>">About</a>
     <% if (active === 'albumDetail' && album) { %>
-      <a href="/album?id=<%= album.id %>" class="active"><%= album.title %></a>
+      <a href="/album?id=<%= album.albumId %>" class="active"><%= album.albumTitle %></a>
     <% } %>
   </nav>
 </header>

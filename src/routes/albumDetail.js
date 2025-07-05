@@ -1,17 +1,19 @@
 import express from 'express';
-import { albums } from './discography.js';
+import { arr_albms } from './contentful-discography.js'; // Import the albums array
 
 const router = express.Router();
 
 // Helper to find album by id
 function findAlbumById(id) {
   id = decodeURIComponent(id).toLowerCase();
-  for (const group of Object.values(albums)) {
-    for (const album of group) {
-      if (album.id && album.id.toLowerCase() === id) return album;
+  for (const album of arr_albms) {
+    if (album.albumId.toLowerCase() === id) {
+      return album;
     }
   }
-  return null;
+  // If no album found, return null
+  console.warn(`Album with id ${id} not found`);
+  return null;  
 }
 
 router.get('/', (req, res) => {
