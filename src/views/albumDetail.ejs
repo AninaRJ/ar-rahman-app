@@ -75,14 +75,14 @@
               <span>Length: <%= song.length %></span>
 
               <div style="margin-top:1rem;">
-                <% if (song.audioLinks && song.audioLinks.youtube) { %>
-                  <a href="<%= song.audioLinks.youtube %>" target="_blank" title="YouTube" style="margin-right:12px;"><%- youtubeIcon %></a>
+                <% if (song.audioLink && song.audioLink.youtubeUrl) { %>
+                  <a href="<%= song.audioLink.youtubeUrl %>" target="_blank" title="YouTube" style="margin-right:12px;"><%- youtubeIcon %></a>
                 <% } %>
-                <% if (song.audioLinks && song.audioLinks.appleMusic) { %>
-                  <a href="<%= song.audioLinks.appleMusic %>" target="_blank" title="Apple Music" style="margin-right:12px;"><%- appleMusicIcon %></a>
+                <% if (song.audioLink && song.audioLink.appleMusic) { %>
+                  <a href="<%= song.audioLink.appleMusic %>" target="_blank" title="Apple Music" style="margin-right:12px;"><%- appleMusicIcon %></a>
                 <% } %>
-                <% if (song.audioLinks && song.audioLinks.spotify) { %>
-                  <a href="<%= song.audioLinks.spotify %>" target="_blank" title="Wikipedia" style="margin-right:12px;"><%- spotifyIcon %></a>
+                <% if (song.audioLink && song.audioLink.spotifyUrl) { %>
+                  <a href="<%= song.audioLink.spotifyUrl %>" target="_blank" title="Wikipedia" style="margin-right:12px;"><%- spotifyIcon %></a>
                 <% } %>
               </div>
             </div>

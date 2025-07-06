@@ -47,7 +47,6 @@ let albums = [];
 
 router.get('/', async (req, res) => {
   albums = await fetchARRahmanAlbums();
-  console.log(albums)
   res.render('discography', { albums });
 });
 

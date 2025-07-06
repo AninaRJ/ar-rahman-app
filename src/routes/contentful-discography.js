@@ -12,6 +12,7 @@ const client = contentful.createClient({
 let albums = [];
 let all_tags = [];
 let arr_albms = [];
+let audioLinks = [];
 
 async function retrieveAlbums(){
   // Retrieve the albums and tags from Contentful
@@ -31,14 +32,13 @@ async function retrieveAlbums(){
       albumLinks: item.fields.albumLinks.fields, 
       lyricists: item.fields.lyricists ? item.fields.lyricists.map(lyricist => lyricist.fields.lyricistName) : [], 
       songs: item.fields.songs.map(song => {
-        console.log(song.fields.audioLinks)
         return {
           songTitle: song.fields.songTitle,
           songId: song.fields.songId,
           length: song.fields.length,
           lyricists: song.fields.lyricists ? song.fields.lyricists.map(lyricist => lyricist.fields.lyricistName) : [],
           //singers: song.fields.singers ? song.fields.singers.map(singer => singer.fields.singerName) : [],
-          audioLinks: song.fields.audioLinks 
+          audioLink: song.fields.audioLinks? song.fields.audioLinks.sys.id: ''
         };  
       }), 
       language: item.fields.language,
@@ -69,4 +69,28 @@ retrieveAlbums().then(() => {
   res.status(500).send("Internal Server Error");
 });
 
-export { albums, arr_albms, all_tags };
+function retrieveAudioLinks() {
+ client.getEntries({
+    content_type: 'referenceLinks',
+  }).then(function (response) {
+    if (response.items.length > 0) {
+      response.items.forEach(item => {
+        audioLinks.push({
+          refId: item.sys.id,
+          refLink: item.fields,
+        });
+      });
+      console.log("Retrieved audio links:", audioLinks);
+    } else {
+      console.warn("No audio links found");
+      return null;
+    }
+  }).catch(function (error) {
+    console.error("Error retrieving audio link:", error);
+    return null;
+  });
+}
+
+retrieveAudioLinks();
+
+export { albums, arr_albms, all_tags, audioLinks };

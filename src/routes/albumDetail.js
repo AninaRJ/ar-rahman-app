@@ -1,5 +1,5 @@
 import express from 'express';
-import { arr_albms } from './contentful-discography.js'; // Import the albums array
+import { arr_albms, audioLinks } from './contentful-discography.js'; // Import the albums array
 
 const router = express.Router();
 
@@ -8,12 +8,33 @@ function findAlbumById(id) {
   id = decodeURIComponent(id).toLowerCase();
   for (const album of arr_albms) {
     if (album.albumId.toLowerCase() === id) {
+      // If the album is found, fetch the audio links for each song
+      album.songs = fetchAlbumSongDetails(album);
       return album;
     }
   }
   // If no album found, return null
   console.warn(`Album with id ${id} not found`);
   return null;  
+}
+
+function fetchAlbumSongDetails(album){
+  // This function is not used in the current implementation, but can be used to fetch song details if needed
+  const songsWithAudioLinks = album.songs.map(song => {
+    if(typeof(song.audioLink) === 'string' && song.audioLink !== ''){
+      const audioLink = audioLinks.find(link => link.refId === song.audioLink);
+      if(audioLink !== null){
+        return {
+          ...song,
+          audioLink: audioLink ? audioLink.refLink : null // Add the audio link to the song
+        };
+      }
+    }
+    else{
+      return song;
+    }
+  });
+  return songsWithAudioLinks;
 }
 
 router.get('/', (req, res) => {
