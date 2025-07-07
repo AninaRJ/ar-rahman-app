@@ -6,7 +6,11 @@
   "type": "module",
   "scripts": {
     "start": "node src/app.js",
-    "build": "echo 'No build step required'",
+    "docker-build": "docker build -t ar-rahman-app .",
+    "docker-run": "docker run -p 3000:3000 --env-file .env ar-rahman-app",
+    "docker-compose-up": "docker-compose up -d",
+    "docker-compose-down": "docker-compose down",
+    "build": "babel src -d dist --copy-files",
     "dev": "nodemon src/app.js",
     "test": "mocha --require @babel/register 'test/**/*.test.js'"
   },
