@@ -65,11 +65,7 @@ function retrieveAlbums(){
 
 }
 
-retrieveAlbums().then(() => {
-  console.log("Retrieved the albums successfully.");
-}).catch((error) => {
-  console.error("Error retrieving albums:", error);
-});
+
 
 function retrieveAudioLinks() {
  client.getEntries({
@@ -94,6 +90,7 @@ function retrieveAudioLinks() {
   });
 }
 
+retrieveAlbums();
 retrieveAudioLinks();
 
 export { albums, arr_albms, all_tags, audioLinks };

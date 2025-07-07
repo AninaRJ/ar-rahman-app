@@ -8,8 +8,7 @@ import albumDetailRoute from './routes/albumDetail.js';
 import morgan from 'morgan'; // HTTP request logger middleware
 import helmet from 'helmet';
 
-app.use(helmet());
-app.use(morgan('dev'));
+
 
 dotenv.config();
 
@@ -22,6 +21,9 @@ app.set('views', path.join(path.resolve(), 'src', 'views'));
 
 // Middleware to serve static files
 app.use(express.static(path.join(path.resolve(), 'src', 'public')));
+
+app.use(helmet());
+app.use(morgan('dev'));
 
 // Define routes
 app.use('/', homeRoute);
