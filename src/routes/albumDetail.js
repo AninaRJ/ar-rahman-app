@@ -1,5 +1,5 @@
 import express from 'express';
-import { arr_albms, audioLinks } from './contentful-discography.js'; // Import the albums array
+import { arr_albms, audioLinks } from '../cms/contentful-discography.js'; // Import the albums data
 
 const router = express.Router();
 

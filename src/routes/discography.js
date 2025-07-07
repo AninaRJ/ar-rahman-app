@@ -1,5 +1,5 @@
 import express from 'express';
-import { albums } from './contentful-discography.js';
+import { albums } from '../cms/contentful-discography.js'; // Import the albums data
 
 const router = express.Router();
 

@@ -1,22 +1,25 @@
 import express from 'express';
+import 'dotenv/config'; // Load environment variables from .env file
 import * as contentful from 'contentful';
-import readRichText from '../contentful-utilities.js'; // Import the utility function to read rich text
+import readRichText from './contentful-utilities.js'; // Import the utility function to read rich text
 
 const router = express.Router();
 
 const client = contentful.createClient({
-  space: 'h4hrqjr8n9ag',
-  accessToken: 'NOy4RuBq4VeIOY3bl373dxxFm5aSDY5-76d5WDMSNAg'
-  //accessToken: 'fZL_p_wr4TjAvFFatluhpRxaFBIhjrkT3Ik3UqJv3Bc',
+  space: process.env.CONTENTFUL_SPACE_ID || '',
+  accessToken: process.env.CONTENTFUL_ACCESS_TOKEN || '',
+  environment: process.env.CONTENTFUL_ENVIRONMENT_ID || 'master',
+  // Uncomment the following line if you want to use the preview API
+  //accessToken: process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN || '',
 });
 let albums = [];
 let all_tags = [];
 let arr_albms = [];
 let audioLinks = [];
 
-async function retrieveAlbums(){
+function retrieveAlbums(){
   // Retrieve the albums and tags from Contentful
-  await client.getTags().then(function (tags) {
+  client.getTags().then(function (tags) {
     all_tags = tags.items.map(tag => tag.name);
   }).catch(function (error) {
     console.error("Error retrieving tags:", error);
@@ -66,7 +69,6 @@ retrieveAlbums().then(() => {
   console.log("Retrieved the albums successfully.");
 }).catch((error) => {
   console.error("Error retrieving albums:", error);
-  res.status(500).send("Internal Server Error");
 });
 
 function retrieveAudioLinks() {
@@ -74,6 +76,7 @@ function retrieveAudioLinks() {
     content_type: 'referenceLinks',
   }).then(function (response) {
     if (response.items.length > 0) {
+      audioLinks = [];
       response.items.forEach(item => {
         audioLinks.push({
           refId: item.sys.id,
@@ -94,3 +97,4 @@ function retrieveAudioLinks() {
 retrieveAudioLinks();
 
 export { albums, arr_albms, all_tags, audioLinks };
+export { retrieveAlbums, retrieveAudioLinks };

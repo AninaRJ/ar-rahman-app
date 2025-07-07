@@ -5,7 +5,9 @@
   "main": "src/app.js",
   "type": "module",
   "scripts": {
-    "start": "node src/app.js"
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "test": "mocha --require @babel/register 'test/**/*.test.js'"
   },
   "dependencies": {
     "axios": "^1.9.0",
@@ -13,9 +15,11 @@
     "contentful": "^11.7.2",
     "dotenv": "^16.5.0",
     "ejs": "^3.1.6",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "helmet": "^8.1.0",
+    "morgan": "^1.10.0"
   },
-  "author": "Your Name",
+  "author": "Ranjani Shivashankar",
   "license": "MIT",
   "devDependencies": {
     "mocha": "^11.5.0",
