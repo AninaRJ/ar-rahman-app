@@ -32,9 +32,9 @@ function retrieveAlbums(){
       albumTitle: item.fields.albumTitle,
       albumId: item.fields.albumId,
       albumDescription: readRichText(item.fields.albumDescription), // richtext field
-      albumLinks: item.fields.albumLinks.fields, 
+      albumLinks: item.fields.albumLinks? item.fields.albumLinks.fields : [], 
       lyricists: item.fields.lyricists ? item.fields.lyricists.map(lyricist => lyricist.fields.lyricistName) : [], 
-      songs: item.fields.songs.map(song => {
+      songs: item.fields.songs && item.fields.songs.length > 0 ? item.fields.songs.map(song => {
         return {
           songTitle: song.fields.songTitle,
           songId: song.fields.songId,
@@ -43,10 +43,10 @@ function retrieveAlbums(){
           //singers: song.fields.singers ? song.fields.singers.map(singer => singer.fields.singerName) : [],
           audioLink: song.fields.audioLinks? song.fields.audioLinks.sys.id: ''
         };  
-      }), 
+      }): [], 
       language: item.fields.language,
       yearReleased: item.fields.yearReleased,
-      albumLabel: item.fields.albumLabel.fields,
+      albumLabel: item.fields.albumLabel? item.fields.albumLabel.fields: '',
       leadActors: readRichText(item.fields.leadActors), // richtext field
       awards: readRichText(item.fields.awards),
       tags: item.metadata.tags.map(tag => tag.sys.id)
