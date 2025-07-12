@@ -1,6 +1,6 @@
 # A R Rahman App
 
-This is a simple Node.js application that showcases the life and work of the renowned composer A R Rahman. The application features three main pages: Home, Discography, and About.
+This is a Node.js/Express application that showcases the life and work of the renowned composer A R Rahman. The application features Home, Discography, and About pages, and integrates with Contentful for dynamic content.
 
 ## Project Structure
 
@@ -8,17 +8,13 @@ This is a simple Node.js application that showcases the life and work of the ren
 ar-rahman-app
 ├── src
 │   ├── app.js             # Entry point of the application
-│   ├── routes             # Contains route definitions
-│   │   ├── home.js        # Route for the home page
-│   │   ├── discography.js  # Route for the discography page
-│   │   └── about.js       # Route for the about page
-│   ├── views              # Contains EJS templates for rendering
-│   │   ├── home.ejs       # Home page template
-│   │   ├── discography.ejs # Discography page template
-│   │   └── about.ejs      # About page template
-│   └── public             # Contains static files
-│       └── styles.css     # CSS styles for the application
+│   ├── routes             # Route definitions (home, discography, about, albumDetail)
+│   ├── views              # EJS templates for rendering
+│   └── public             # Static files (CSS, images)
 ├── package.json           # NPM configuration file
+├── Dockerfile             # Docker build instructions
+├── docker-compose.yml     # Docker Compose configuration
+├── .env                   # Environment variables (not committed)
 └── README.md              # Project documentation
 ```
 
@@ -32,30 +28,34 @@ ar-rahman-app
    ```
    cd ar-rahman-app
    ```
-3. Install the dependencies:
+3. Install dependencies:
    ```
    npm install
    ```
 
 ## Usage
 
-To start the application, run the following command:
+To start the application locally:
 ```
 npm start
 ```
+The app will be available at `http://localhost:3000`.
 
-The application will be available at `http://localhost:3000`.
+## Docker
+
+To run the app in Docker:
+```
+docker-compose up --build
+```
+Environment variables should be set in a `.env` file.
+
+## Deployment
+
+- For cloud deployment, you can use platforms like Vercel, Render, or Heroku.
+- For production, use Nginx as a reverse proxy and set up SSL as needed.
 
 ## Features
 
 - Home page with an introduction to A R Rahman.
-- Discography page showcasing A R Rahman's musical works.
-- About page providing detailed information about A R Rahman's life and achievements.
-
-## Contributing
-
-Feel free to submit issues or pull requests for improvements or bug fixes. 
-
-## License
-
-This project is licensed under the MIT License.
+- Discography page showcasing musical works (dynamic from Contentful).
+- Album detail pages.
